@@ -1,0 +1,79 @@
+
+<form class="form" #contactForm="ngForm" (submit)="guardar()" >
+    <div class="form-group">
+        <label for="nick">Pagina Web</label>&nbsp;
+        <input class="form-control"
+        [(ngModel)]="data.page"
+        required
+        pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"
+        maxlength=100
+        minlength=3
+        name="nick"
+        type="text"
+        #nick='ngModel'
+        (change)="log(nick)"
+        id="nick"
+        >
+
+        <div class="alert alert-danger" *ngIf="nick.touched && nick.invalid">
+
+          <div  *ngIf="nick.errors.required">*El campo es requerido</div>
+          <div  *ngIf="nick.errors.minlength">*El campo debe tener minimo {{nick.errors.minlength.requiredLength}} caracteres</div>
+          <div  *ngIf="nick.errors.pattern">*Debe Ser una URL Valida</div>
+        </div>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>&nbsp;
+      <input class="form-control" type="email"  email [(ngModel)]="data.email" name="email" #email='ngModel'  id="email">
+      <div class="alert alert-danger" *ngIf="email.touched && email.invalid">
+          <div  *ngIf="email.errors.required">*El campo es requerido</div>
+          <div  *ngIf="email.errors.email">*Debe ser un correo electronico valido</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="mensaje">Mensaje</label>
+        <textarea class="form-control" required [(ngModel)]="data.mensaje" name="mensaje" #mensaje="ngModel" pattern="^[a-zA-ZñÑ][a-zA-ZÑñ0-9 ]*" id="mensaje" cols="30" rows="10" minlength="20" maxlength="1000"></textarea>
+        <div class="alert alert-danger" *ngIf="mensaje.touched && mensaje.invalid">
+            <div  *ngIf="mensaje.errors.required">*El campo es requerido</div>
+            <div  *ngIf="mensaje.errors.pattern">*Solo se permiten caracteres alfanumericos</div>
+            <div  *ngIf="mensaje.errors.minlength">*El campo debe tener minimo {{mensaje.errors.minlength.requiredLength}} caracteres, tiene: {{mensaje.errors.minlength.actualLength}}</div>
+            <div  *ngIf="mensaje.errors.maxlength">*El campo puede tener maximo {{mensaje.errors.maxlength.requiredLength}} caracteres, tiene: {{mensaje.errors.maxlength.actualLength}}</div>
+
+          </div>
+    </div>
+
+    <div class="form-group">
+      <label for="fecha">Fecha</label>
+      <input class="form-control" type="time" date [(ngModel)]="data.hora" name="fecha" required #fecha="ngModel">
+      <div class="alert alert-danger" *ngIf="fecha.touched && fecha.invalid">
+          <div  *ngIf="fecha.errors.required">*El campo es requerido</div>
+        </div>
+
+    </div>
+
+
+    <div class="form-group">
+        <label for="xphr">Xphr</label>&nbsp;
+        <input class="form-control" xphrUrl jurName
+        [(ngModel)]="data.xphr"
+        required
+        name="xphr"
+        type="text"
+        #xphr='ngModel'
+        (change)="log(xphr)"
+        id="xphr"
+        >
+
+        <div class="alert alert-danger" *ngIf="xphr.touched && xphr.invalid">
+          <div  *ngIf="xphr.errors.required">*El campo es requerido</div>
+        </div>
+
+        {{xphr.errors | json}}
+    </div>
+
+    <button class="btn btn-primary" [disabled]="!contactForm.valid" type="submit">Enviar</button> &nbsp;
+    <button class="btn btn-primary" type="submit">Enviar2</button> &nbsp;
+    <button class="btn btn-secundary"  type="reset">Reset</button> &nbsp;
+    <button class="btn btn-danger"  type="button" (click)="log(nick)">ver</button>
+    {{data|json}}
+</form>
